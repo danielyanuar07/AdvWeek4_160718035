@@ -33,6 +33,13 @@ class StudentListFragment : Fragment() {
         recView.adapter = studentListAdapter
 
         observeViewModel()
+        refreshLayout.setOnRefreshListener {
+            recView.visibility = View.GONE
+            txtError.visibility = View.GONE
+            progressLoad.visibility = View.VISIBLE
+            viewModel.refresh()
+            refreshLayout.isRefreshing = false
+        }
     }
 
         fun observeViewModel(){
@@ -45,13 +52,13 @@ class StudentListFragment : Fragment() {
             viewModel.loadingLD.observe(viewLifecycleOwner, Observer {
               if(it)
               {
-                  recView.visibility = View.VISIBLE
-                  progressLoad.visibility= View.GONE
+                  recView.visibility = View.GONE
+                  progressLoad.visibility= View.VISIBLE
               }
                 else
               {
-                  recView.visibility = View.GONE
-                  progressLoad.visibility= View.VISIBLE
+                  recView.visibility = View.VISIBLE
+                  progressLoad.visibility= View.GONE
 
               }
             })
